@@ -1,0 +1,12 @@
+numpy
+tensorflow
+librosa
+matplotlib
+scipy
+pandas
+pyaudio
+easydict
+scikit-learn
+imbalanced-learn
+opencv-python
+keras

@@ -13,7 +13,7 @@
 import warnings
 warnings.simplefilter('ignore')
 import numpy as np
-np.warnings.filterwarnings('ignore')
+warnings.filterwarnings('ignore')
 np.random.seed(1001)
 
 import sys
@@ -115,14 +115,14 @@ def read_audio(conf, pathname, trim_long_data):
     return y
 
 def audio_to_melspectrogram(conf, audio):
-    spectrogram = librosa.feature.melspectrogram(audio, 
+    spectrogram = librosa.feature.melspectrogram(y=audio, 
                                                  sr=conf.sampling_rate,
                                                  n_mels=conf.n_mels,
                                                  hop_length=conf.hop_length,
                                                  n_fft=conf.n_fft,
                                                  fmin=conf.fmin,
                                                  fmax=conf.fmax)
-    spectrogram = librosa.power_to_db(spectrogram)
+    spectrogram = librosa.power_to_db(S=spectrogram)
     spectrogram = spectrogram.astype(np.float32)
     return spectrogram
 
@@ -204,7 +204,8 @@ def geometric_mean_preds(_preds):
     return np.power(preds[0], 1/preds.shape[0])
 
 # # Tensorflow Utilities
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 def load_graph(model_file):
     graph = tf.Graph()

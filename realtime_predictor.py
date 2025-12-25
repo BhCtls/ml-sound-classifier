@@ -104,6 +104,14 @@ def run_predictor():
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     audio = pyaudio.PyAudio()
+
+    # Check device capabilities
+    device_info = audio.get_device_info_by_index(args.input)
+    if device_info['maxInputChannels'] < CHANNELS:
+        print(f"Error: Device {args.input} ({device_info['name']}) does not support input channels.")
+        print("Please select a valid input device. Use -i -1 to list devices.")
+        sys.exit(1)
+
     stream = audio.open(
                 format=FORMAT,
                 channels=CHANNELS,
